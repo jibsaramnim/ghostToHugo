@@ -131,7 +131,8 @@ func (p post) mobiledocMarkdown() string {
 		WithCard("embed", cardEmbed).
 		WithCard("gallery", cardGallery).
 		WithCard("html", cardHTML).
-		WithCard("bookmark", cardBookmark)
+		WithCard("bookmark", cardBookmark).
+		WithCard("callout", cardCallout)
 
 	err := md.Render(&buf)
 	if err != nil {

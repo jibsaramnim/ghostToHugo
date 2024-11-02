@@ -124,6 +124,7 @@ func cardEmbed(payload interface{}) string {
 
 	return html.(string)
 }
+
 func cardGallery(payload interface{}) string {
 	m, ok := payload.(map[string]interface{})
 	if !ok {
@@ -221,4 +222,35 @@ func cardMarkdown(payload interface{}) string {
 		return fmt.Sprintf("%s\n", markdown.(string))
 	}
 	return ""
+}
+
+func cardCallout(payload interface{}) string {
+	m, ok := payload.(map[string]interface{})
+	if !ok {
+		jww.ERROR.Println("cardCallout: payload not correct type")
+		return ""
+	}
+
+	emoji, ok := m["calloutEmoji"]
+	if !ok {
+		jww.ERROR.Println("cardCallout: missing emoji")
+		return ""
+	}
+	backgroundColor, ok := m["backgroundColor"]
+	if !ok {
+		jww.ERROR.Println("cardBookmark: missing background color")
+		return ""
+	}
+	text, ok := m["calloutText"]
+	if !ok || text == nil {
+		jww.ERROR.Println("cardCallout: missing text")
+		return ""
+	}
+
+	return fmt.Sprintf(
+		"{{%% callout emoji=%q color=%q %%}}%s{{%% /callout %%}}",
+		emoji.(string),
+		backgroundColor.(string),
+		text.(string),
+	)
 }
