@@ -43,7 +43,7 @@ func (p post) isDraft() bool {
 }
 
 func (p post) isPage() bool {
-	return p.Type == "page"
+	return strings.ToLower(p.Type) == "page"
 }
 
 func (p post) frontMatter() map[string]interface{} {
