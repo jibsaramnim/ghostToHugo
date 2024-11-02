@@ -18,16 +18,17 @@ func usage() {
 }
 
 func main() {
-
 	var (
-		path, loc, format     string
-		force, verbose, debug bool
+		path, loc, format              string
+		subdirs, force, verbose, debug bool
 	)
 
 	flag.Usage = usage
 
 	flag.StringVarP(&path, "hugo", "p", "newhugosite",
 		"path to create the new hugo project")
+	flag.BoolVarP(&subdirs, "subdirs", "s", false,
+		"Export posts and pages as index.md within their own named sub-directories.")
 	flag.StringVarP(&loc, "location", "l", "",
 		"location to use for time conversions (default: local)")
 	flag.StringVarP(&format, "dateformat", "d", "2006-01-02 15:04:05",
@@ -59,6 +60,10 @@ func main() {
 
 	if format != "" {
 		opts = append(opts, ghosttohugo.WithDateFormat(format))
+	}
+
+	if subdirs {
+		opts = append(opts, ghosttohugo.WithSubDirs())
 	}
 
 	if force {

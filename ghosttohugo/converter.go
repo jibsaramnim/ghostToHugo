@@ -24,6 +24,7 @@ type Converter struct {
 	info       info
 	site       *hugolib.Site
 	kind       metadecoders.Format
+	subdirs    bool
 }
 
 // WithLocation sets the location used when working with timestamps
@@ -45,6 +46,15 @@ func WithHugoPath(path string) func(*Converter) {
 	return func(c *Converter) {
 		c.path = path
 		viper.AddConfigPath(path)
+	}
+}
+
+// WithSubDirs sets the converter to create named sub-directories for each
+// post and page with the file itself called index.md, rather than just a
+// named markdown file.
+func WithSubDirs() func(*Converter) {
+	return func(c *Converter) {
+		c.subdirs = true
 	}
 }
 
@@ -102,7 +112,6 @@ func (c Converter) parseTime(raw json.RawMessage) time.Time {
 		}
 	}
 	return time.Time{}
-
 }
 
 func (c Converter) populatePost(p *post) {

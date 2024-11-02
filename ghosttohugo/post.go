@@ -78,12 +78,19 @@ func (p post) frontMatter() map[string]interface{} {
 
 func (c *Converter) writePost(p post) error {
 	jww.DEBUG.Printf("converting: %s", p.Title)
+
 	path := filepath.Join(c.path, "content")
 	switch p.isPage() {
 	case true:
-		path = filepath.Join(path, p.Slug+".md")
+		path = filepath.Join(path, "pages")
 	case false:
-		path = filepath.Join(path, "post", p.Slug+".md")
+		path = filepath.Join(path, "post")
+	}
+
+	if c.subdirs {
+		path = filepath.Join(path, p.Slug, "index.md")
+	} else {
+		path = filepath.Join(path, p.Slug+".md")
 	}
 
 	buf := bytes.NewBuffer(nil)
