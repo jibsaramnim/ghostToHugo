@@ -117,6 +117,7 @@ func (c Converter) parseTime(raw json.RawMessage) time.Time {
 func (c Converter) populatePost(p *post) {
 	p.Published = c.parseTime(p.PublishedAt)
 	p.Created = c.parseTime(p.CreatedAt)
+	p.LastMod = c.parseTime(p.LastModAt)
 
 	for _, user := range c.info.Data.Users {
 		if bytes.Equal(user.ID, p.AuthorID) {

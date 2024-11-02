@@ -28,10 +28,12 @@ type post struct {
 	AuthorID        json.RawMessage `json:"author_id"`
 	PublishedAt     json.RawMessage `json:"published_at"`
 	CreatedAt       json.RawMessage `json:"created_at"`
+	LastModAt       json.RawMessage `json:"updated_at"`
 	Summary         string          `json:"custom_excerpt"`
 
 	Published time.Time
 	Created   time.Time
+	LastMod   time.Time
 	Author    string
 	Tags      []string
 }
@@ -47,12 +49,13 @@ func (p post) isPage() bool {
 func (p post) frontMatter() map[string]interface{} {
 	metadata := make(map[string]interface{})
 
-	switch p.isDraft() {
-	case true:
-		metadata["date"] = p.Created
-	case false:
-		metadata["date"] = p.Published
+	metadata["date"] = p.Created
+	metadata["lastmod"] = p.LastMod
+
+	if !p.isDraft() {
+		metadata["publishDate"] = p.Published
 	}
+
 	metadata["title"] = p.Title
 	metadata["draft"] = p.isDraft()
 	metadata["slug"] = p.Slug
