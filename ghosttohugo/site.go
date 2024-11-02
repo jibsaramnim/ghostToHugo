@@ -3,7 +3,7 @@ package ghosttohugo
 import (
 	"bytes"
 	"fmt"
-	"io/ioutil"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -45,17 +45,17 @@ func (c *Converter) createSite() error {
 	mkdir(c.path, "data")
 	mkdir(c.path, "themes")
 
-	ioutil.WriteFile(
+	os.WriteFile(
 		filepath.Join(c.path, "layouts/shortcodes/bookmark.html"),
 		bookmarkData,
 		0644,
 	)
-	ioutil.WriteFile(
+	os.WriteFile(
 		filepath.Join(c.path, "layouts/shortcodes/gallery.html"),
 		galleryData,
 		0644,
 	)
-	ioutil.WriteFile(
+	os.WriteFile(
 		filepath.Join(c.path, "layouts/shortcodes/galleryImg.html"),
 		galleryImgData,
 		0644,
